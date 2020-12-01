@@ -1,0 +1,4 @@
+﻿  lab9.2_B.cpp
+D:\Patiuk\AP\lab_2\labs9\lab9.2_B\lab9.2_B.cpp(6,831): warning C4101: 'MenuItem': unreferenced local variable
+D:\Patiuk\AP\lab_2\labs9\lab9.2_B\lab9.2_B.cpp(33,103): warning C4101: 'kurs': unreferenced local variable
+  lab9.2_B.vcxproj -> D:\Patiuk\AP\lab_2\labs9\lab9.2_B\Debug\lab9.2_B.exe
