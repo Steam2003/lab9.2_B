@@ -14,7 +14,7 @@ using namespace std;enum Specialty { КН, МЕ, ТН, ІФ, ФІ };string strSpecialt
 		cout << " [6] - бінарний пошук студента" << endl;
 		cout << " [0] - вихід та завершення роботи програми" << endl;
 		cout << "Введіть пункт меню: "; cin >> menuItem;
-		switch (menuItem)		{		case 1:			Create(s, N);			cout << "Масив створено" << endl;			break;		case 2:			Print(s, N);			break;		case 3:			cout << "================================================================================" << endl;			cout << "| Найбільший середній бал: " << fixed << setprecision(2) << BestAverage(s, N) << setw(51) << "|" << endl;			cout << "| Процент студентів які отримали з фізики " << char(34) << "4" << char(34) << " або " << char(34) << "5" << char(34) << ": " << fixed << setw(6) << setprecision(2) << physics_five_four(s, N) << "%" << setw(18) << "|" << endl;			cout << "================================================================================" << endl;			break;		case 4:			Sort(s, N);			cout << "Масив впорядковано" << endl;			break;		case 5:			PrintIndexSorted(s, IndexSort(s, N), N);			break;		case 6:			cout << "Введіть ключі пошуку:" << endl;
+		switch (menuItem)		{		case 1:			Create(s, N);			cout << "Масив створено" << endl;			break;		case 2:			Print(s, N);			break;		case 3:			cout << "================================================================================" << endl;			cout << "| Найбільший середній бал: " << fixed << setprecision(2) << BestAverage(s, N) << setw(49) << "|" << endl;			cout << "| Процент студентів які отримали з фізики " << char(34) << "4" << char(34) << " або " << char(34) << "5" << char(34) << ": " << fixed << setw(6) << setprecision(2) << physics_five_four(s, N) << "%" << setw(18) << "|" << endl;			cout << "================================================================================" << endl;			break;		case 4:			Sort(s, N);			cout << "Масив впорядковано" << endl;			break;		case 5:			PrintIndexSorted(s, IndexSort(s, N), N);			break;		case 6:			cout << "Введіть ключі пошуку:" << endl;
 			cin.get();
 			cin.sync();
 			cout << " прізвище: ";
@@ -61,15 +61,12 @@ using namespace std;enum Specialty { КН, МЕ, ТН, ІФ, ФІ };string strSpecialt
 			{			case 0:				cout << "| " << setw(7) << right << s[i].programming << "       |" << setw(18) << "|" << setw(13) << "|" << endl;				break;			case 3:				cout << "| " << setw(15) << "|" << setw(10) << right << s[i].methods << "       |" << setw(13) << "|" << endl;				break;			case 1:			case 2:			case 4:				cout << "| " << setw(15) << "|" << setw(18) << "|" << right << setw(7) << s[i].pedagogika << "     |" << endl;				break;			}
 	}
 	cout << "=================================================================================================================" << endl;
-}double BestAverage(Student* s, const int N){	double best = 0;	double tmp;	for (int i = 0; i < N; i++)	{		switch (s[i].specialty)		{		case 0:			tmp = (s[i].physics + s[i].math + s[i].programming) / 3.;			break;		case 3:			tmp = (s[i].physics + s[i].math + s[i].methods) / 3.;			break;		case 1:		case 2:		case 4:			tmp = (s[i].physics + s[i].math + s[i].pedagogika) / 3.;			break;		}		if (tmp > best)			best = tmp;	}	return best;}double physics_five_four(Student* s, const int N){	int k = 0;	for (int i = 0; i < N; i++)		if (s[i].physics == 4 || s[i].physics == 5)			k++;	return 100.0 * k / N;}void Sort(Student* s, const int N){	Student tmp;
+}double BestAverage(Student* s, const int N){	double best = 0;	double tmp;	for (int i = 0; i < N; i++)	{			tmp = (s[i].physics + s[i].math + s[i].programming) / 3.;			if (tmp > best)				best = tmp;	}	return best;}double physics_five_four(Student* s, const int N){	int k = 0;	for (int i = 0; i < N; i++)		if (s[i].physics == 4 || s[i].physics == 5)			k++;	return 100.0 * k / N;}void Sort(Student* s, const int N){	Student tmp;
 	double si1, si2;
 
 	for (int i0 = 0; i0 < N - 1; i0++)
 		for (int i1 = 0; i1 < N - i0 - 1; i1++)
 		{
-			switch (s[i1].specialty)
-			{
-			case 0:
 				si1 = (s[i1].physics + s[i1].math + s[i1].programming) / 3.;
 				si2 = (s[i1 + 1].physics + s[i1 + 1].math + s[i1 + 1].programming) / 3.;
 				if (
@@ -80,30 +77,7 @@ using namespace std;enum Specialty { КН, МЕ, ТН, ІФ, ФІ };string strSpecialt
 				{
 					tmp = s[i1];
 					s[i1] = s[i1 + 1];
-					s[i1 + 1] = tmp;
-				}				break;			case 3:				si1 = (s[i1].physics + s[i1].math + s[i1].methods) / 3.;
-				si2 = (s[i1 + 1].physics + s[i1 + 1].math + s[i1 + 1].methods) / 3.;
-				if (
-					(si1 > si2)
-					|| (si1 == si2 && s[i1].math > s[i1 + 1].math)
-					|| (si1 == si2 && s[i1].math == s[i1 + 1].math && s[i1].prizv > s[i1 + 1].prizv)
-					)
-				{
-					tmp = s[i1];
-					s[i1] = s[i1 + 1];
-					s[i1 + 1] = tmp;
-				}				break;			case 1:			case 2:			case 4:				si1 = (s[i1].physics + s[i1].math + s[i1].pedagogika) / 3.;
-				si2 = (s[i1 + 1].physics + s[i1 + 1].math + s[i1 + 1].pedagogika) / 3.;
-				if (
-					(si1 > si2)
-					|| (si1 == si2 && s[i1].math > s[i1 + 1].math)
-					|| (si1 == si2 && s[i1].math == s[i1 + 1].math && s[i1].prizv > s[i1 + 1].prizv)
-					)
-				{
-					tmp = s[i1];
-					s[i1] = s[i1 + 1];
-					s[i1 + 1] = tmp;
-				}				break;			}		}}int* IndexSort(Student* s, const int N)
+					s[i1 + 1] = tmp;			}		}}int* IndexSort(Student* s, const int N)
 {
 	double sIj, svalue;
 	int* I = new int[N];
@@ -114,63 +88,22 @@ using namespace std;enum Specialty { КН, МЕ, ТН, ІФ, ФІ };string strSpecialt
 	{
 		value = I[i];
 		j = i - 1;
-		switch (s[i].specialty)
-		{
-		case 0:
-			sIj = (s[I[j]].physics + s[I[j]].math + s[I[j]].programming) / 3.;
+			
 			svalue = (s[value].physics + s[value].math + s[value].programming) / 3.;
-			for (j;
+			for (;
 				j >= 0 && (
-					(sIj > svalue)
+					((s[I[j]].physics + s[I[j]].math + s[I[j]].programming) / 3. > svalue)
 					||
-					(sIj == svalue && s[I[j]].math > s[value].math)
+					((s[I[j]].physics + s[I[j]].math + s[I[j]].programming) / 3. == svalue && s[I[j]].math > s[value].math)
 					||
-					(sIj == svalue && s[I[j]].math > s[value].math && s[I[j]].prizv > s[value].prizv)
-					);
-				j--)
-			{
-				I[j + 1] = I[j]; 
-			}
-			I[j + 1] = value;
-			break;
-		case 3:
-			sIj = (s[I[j]].physics + s[I[j]].math + s[I[j]].methods) / 3.;
-			svalue = (s[value].physics + s[value].math + s[value].methods) / 3.;
-			for (j;
-				j >= 0 && (
-					(sIj > svalue)
-					||
-					(sIj == svalue && s[I[j]].math > s[value].math)
-					||
-					(sIj == svalue && s[I[j]].math > s[value].math && s[I[j]].prizv > s[value].prizv)
+					((s[I[j]].physics + s[I[j]].math + s[I[j]].programming) / 3. == svalue && s[I[j]].math == s[value].math && s[I[j]].prizv > s[value].prizv)
 					);
 				j--)
 			{
 				I[j + 1] = I[j];
 			}
-			I[j + 1] = value;
-			break;
-		case 1:
-		case 2:
-		case 4:
-			sIj = (s[I[j]].physics + s[I[j]].math + s[I[j]].pedagogika) / 3.;
-			svalue = (s[value].physics + s[value].math + s[value].pedagogika) / 3.;
-			for (j;
-				j >= 0 && (
-					(sIj > svalue)
-					||
-					(sIj == svalue && s[I[j]].math > s[value].math)
-					||
-					(sIj == svalue && s[I[j]].math > s[value].math && s[I[j]].prizv > s[value].prizv)
-					);
-				j--)
-			{
-				I[j + 1] = I[j];
-			}
-			I[j + 1] = value;
-			break;
+				I[j + 1] = value;
 		}
-	}
 	return I;
 }void PrintIndexSorted(Student* s, int* I, const int N)
 {
